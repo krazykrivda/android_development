@@ -798,7 +798,7 @@ public class SpareParts extends PreferenceActivity
         } else if (BATTERY_ALIGNMENT_PREF.equals(key)) {
             Settings.System.putInt(getContentResolver(),
                     Settings.System.BATTERY_ALIGNMENT,
-                    mNotificationPausePref.isChecked() ? 1 : 0);
+                    mBatteryAlignmentPref.isChecked() ? 1 : 0);
         } else if (NOTIFICATION_PAUSE_PREF.equals(key)) {
             Settings.System.putInt(getContentResolver(),
                     Settings.System.NOTIFICATION_PAUSE,
