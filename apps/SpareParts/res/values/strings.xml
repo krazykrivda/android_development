@@ -53,9 +53,9 @@
     <string name="summary_on_haptic_feedback">Use haptic feedback with user interaction</string>
     <string name="summary_off_haptic_feedback">Use haptic feedback with user interaction</string>
     
-     <string name="title_end_button">End button behavior</string>
+<!--     <string name="title_end_button">End button behavior</string>
     <string name="summary_end_button">Select End (red) button action</string>
-    <string name="dialog_title_end_button">Select End button</string>
+    <string name="dialog_title_end_button">Select End button</string> -->
     
     <string name="applications_title">Applications</string>
     
@@ -75,6 +75,18 @@
     <string name="battery_status_summary_on">Battery percentage will be displayed in status bar</string>
     <string name="battery_status_summary_off">Battery percentage will not be displayed in status bar</string>    
     <string name="battery_status_color_title">Battery percentage color</string>
+
+    <!-- KrazyKrivda -->
+    <string name="battery_alignment_title">Battery alignment</string>
+    <string name="battery_alignment_summary_on">Battery status will be centered (for symmetrical battery icons)</string>
+    <string name="battery_alignment_summary_off">Battery status will be right aligned (for standard battery icons)</string>
+
+
+    <!-- KrazyKrivda -->
+    <string name="notification_pause_title">Notification pause</string>
+    <string name="notification_pause_summary_on">Music will pause for a notifications</string>
+    <string name="notification_pause_summary_off">Notifications will be heard WITH music</string>
+
 
 	<string name="title_compcache_enabled">Compcache enabled</string>
 	<string name="summary_on_compcache_enabled">Compressed caching is enabled</string>
