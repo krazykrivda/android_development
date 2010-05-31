@@ -85,7 +85,10 @@ public class SpareParts extends PreferenceActivity
     private static final String UI_NOTIF_ITEM_TEXT_COLOR = "notifications_text_color";
     private static final String UI_NOTIF_ITEM_TIME_COLOR = "notifications_time_color";
     private static final String UI_RESET_TO_DEFAULTS = "reset_ui_tweaks_to_defaults";
-    
+    // KrazyKrivda Notifcation pause and Battery Percent Alignment
+    private static final String NOTIFICATION_PAUSE_PREF = "notification_pause";
+    private static final String BATTERY_ALIGNMENT_PREF = "battery_alignment";    
+
     private final Configuration mCurConfig = new Configuration();
     
     private ListPreference mRecentAppsNumPref;    
@@ -120,6 +123,9 @@ public class SpareParts extends PreferenceActivity
     private CheckBoxPreference mShowSpnLsPref;
     private CheckBoxPreference mShowPlmnSbPref;
     private CheckBoxPreference mShowSpnSbPref;
+    // KrazyKrivda mods
+    private CheckBoxPreference mNotificationPausePref;
+    private CheckBoxPreference mBatteryAlignmentPref;
     
     private Preference mResetToDefaults;
 
@@ -184,19 +190,22 @@ public class SpareParts extends PreferenceActivity
         mTransitionAnimationsPref.setOnPreferenceChangeListener(this);
         mFancyImeAnimationsPref = (CheckBoxPreference) prefSet.findPreference(FANCY_IME_ANIMATIONS_PREF);
         mHapticFeedbackPref = (CheckBoxPreference) prefSet.findPreference(HAPTIC_FEEDBACK_PREF);
-        mEndButtonPref = (ListPreference) prefSet.findPreference(END_BUTTON_PREF);
-        mEndButtonPref.setOnPreferenceChangeListener(this);
+        //mEndButtonPref = (ListPreference) prefSet.findPreference(END_BUTTON_PREF);
+        //mEndButtonPref.setOnPreferenceChangeListener(this);
         mPinHomePref = (CheckBoxPreference) prefSet.findPreference(PIN_HOME_PREF);
         mLauncherOrientationPref = (CheckBoxPreference) prefSet.findPreference(LAUNCHER_ORIENTATION_PREF);
         mLauncherColumnPref = (CheckBoxPreference) prefSet.findPreference(LAUNCHER_COLUMN_PREF);
+        // KrazyKrivda Notification Pause
+        mNotificationPausePref = (CheckBoxPreference) prefSet.findPreference(NOTIFICATION_PAUSE_PREF);
         mCompcachePref = (CheckBoxPreference) prefSet.findPreference(COMPCACHE_PREF);
         // Double carrier
         mShowPlmnLsPref = (CheckBoxPreference) prefSet.findPreference(SHOW_PLMN_LS_PREF);
         mShowSpnLsPref = (CheckBoxPreference) prefSet.findPreference(SHOW_SPN_LS_PREF);
         mShowPlmnSbPref = (CheckBoxPreference) prefSet.findPreference(SHOW_PLMN_SB_PREF);
         mShowSpnSbPref = (CheckBoxPreference) prefSet.findPreference(SHOW_SPN_SB_PREF);
-        
         mBatteryStatusPref = (CheckBoxPreference) prefSet.findPreference(BATTERY_STATUS_PREF);
+        // KrazyKrivda Battery Alignment
+        mBatteryAlignmentPref = (CheckBoxPreference) prefSet.findPreference(BATTERY_ALIGNMENT_PREF);
         mBatteryPercentColorPreference = prefSet.findPreference(UI_BATTERY_PERCENT_COLOR);
         mShowClockPref = (CheckBoxPreference) prefSet.findPreference(UI_SHOW_STATUS_CLOCK);        
         mClockColorPref = prefSet.findPreference(UI_CLOCK_COLOR);
@@ -256,6 +265,14 @@ public class SpareParts extends PreferenceActivity
             mBatteryStatusPref.setChecked(Settings.System.getInt(
                     getContentResolver(),
                     Settings.System.BATTERY_PERCENTAGE_STATUS_ICON, 0) != 0);
+            // KrazyKrivda Music Pause and Battery Alignment
+            mNotificationPausePref.setChecked(Settings.System.getInt(
+                    getContentResolver(),
+                    Settings.System.NOTIFICATION_PAUSE, 0) != 0);
+            mBatteryAlignmentPref.setChecked(Settings.System.getInt(
+                    getContentResolver(),
+                    Settings.System.BATTERY_ALIGNMENT, 0) != 0);
+
             mCompcachePref.setChecked(Settings.Secure.getInt(
                     getContentResolver(),
                     Settings.Secure.COMPCACHE_ENABLED, 0) != 0);
@@ -281,8 +298,8 @@ public class SpareParts extends PreferenceActivity
             writeAnimationPreference(0, objValue);
         } else if (preference == mTransitionAnimationsPref) {
             writeAnimationPreference(1, objValue);
-        } else if (preference == mEndButtonPref) {
-            writeEndButtonPreference(objValue);
+/*        } else if (preference == mEndButtonPref) {
+            writeEndButtonPreference(objValue);*/
         } else if (preference == mRecentAppsNumPref) {
             writeRecentAppsNumPreference(objValue);
         }
@@ -459,14 +476,14 @@ public class SpareParts extends PreferenceActivity
         }
     }
     
-    public void writeEndButtonPreference(Object objValue) {
+/*    public void writeEndButtonPreference(Object objValue) {
         try {
             int val = Integer.parseInt(objValue.toString());
             Settings.System.putInt(getContentResolver(),
                     Settings.System.END_BUTTON_BEHAVIOR, val);
         } catch (NumberFormatException e) {
         }
-    }
+    } */
     
     public void writeRecentAppsNumPreference(Object objValue) {
         try {
@@ -499,13 +516,13 @@ public class SpareParts extends PreferenceActivity
         }
     }
     
-    public void readEndButtonPreference(ListPreference pref) {
+/*    public void readEndButtonPreference(ListPreference pref) {
         try {
             pref.setValueIndex(Settings.System.getInt(getContentResolver(),
                     Settings.System.END_BUTTON_BEHAVIOR));
         } catch (SettingNotFoundException e) {
         }
-    }
+    } */
     
     public void readRecentAppsNumPreference(ListPreference pref) {
         try {
@@ -777,6 +794,16 @@ public class SpareParts extends PreferenceActivity
             Settings.System.putInt(getContentResolver(),
                     Settings.System.BATTERY_PERCENTAGE_STATUS_ICON,
                     mBatteryStatusPref.isChecked() ? 1 : 0);
+        // KrazyKrivda 
+        } else if (BATTERY_ALIGNMENT_PREF.equals(key)) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.BATTERY_ALIGNMENT,
+                    mNotificationPausePref.isChecked() ? 1 : 0);
+        } else if (NOTIFICATION_PAUSE_PREF.equals(key)) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.NOTIFICATION_PAUSE,
+                    mNotificationPausePref.isChecked() ? 1 : 0);
+        
         } else if (COMPCACHE_PREF.equals(key)) {
             Settings.Secure.putInt(getContentResolver(), Settings.Secure.COMPCACHE_ENABLED,
                     mCompcachePref.isChecked() ? 1 : 0);
@@ -804,7 +831,7 @@ public class SpareParts extends PreferenceActivity
         super.onResume();
         readAnimationPreference(0, mWindowAnimationsPref);
         readAnimationPreference(1, mTransitionAnimationsPref);
-        readEndButtonPreference(mEndButtonPref);
+        //readEndButtonPreference(mEndButtonPref);
         readRecentAppsNumPreference(mRecentAppsNumPref);
         updateToggles();
     }
